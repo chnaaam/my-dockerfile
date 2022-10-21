@@ -1,7 +1,8 @@
-FROM nvidia/cuda:11.7.1-cudnn8-runtime-ubuntu22.04
+FROM nvidia/cuda:11.3.0-cudnn8-runtime-ubuntu20.04
 
 # #######################################################################################
 # Install Ubuntu Packages
+ARG DEBIAN_FRONTEND=noninteractive
 RUN rm -f /etc/apt/sources.list.d/*.list
 
 RUN apt-get update && \
@@ -33,7 +34,7 @@ RUN nvim +"CocInstall -sync coc-pyright" +qa
 RUN pip3 install torch==1.12.0 transformers onnx
 RUN pip3 install pandas minio docker
 RUN pip3 install fastapi gunicorn requests
-RUN pip3 install fluent-logger pylint
+RUN pip3 install fluent-logger pylint python-dotenv
 
 RUN apt-get clean && \
     rm -rf /config/* /tmp/* /var/lib/apt/lists/* /var/tmp/*
