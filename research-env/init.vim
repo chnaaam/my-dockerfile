@@ -149,3 +149,7 @@ au BufReadPost *
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" Python 실행
+autocmd FileType python map <buffer> <C-S-R> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+autocmd FileType python imap <buffer> <C-S-R> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
