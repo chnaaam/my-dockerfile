@@ -22,7 +22,7 @@ RUN n stable
 # Install python packages
 RUN pip3 install torch==1.12.0 transformers onnx
 RUN pip3 install pandas minio docker
-RUN pip3 install fastapi gunicorn requests
+RUN pip3 install fastapi gunicorn uvicorn requests
 RUN pip3 install fluent-logger pylint python-dotenv
 
 # #######################################################################################
@@ -31,15 +31,15 @@ RUN add-apt-repository ppa:jonathonf/vim -y && apt-get update -y && apt-get inst
 RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-COPY .vimrc ~/.vimrc
+COPY .vimrc /root/.vimrc
 RUN vi +PlugInstall +qa
 RUN vi +"CocInstall -sync coc-pyright" +qa
 
 # #######################################################################################
 # MinIO Client
-RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc
-RUN chmod +x mc
-RUN export PATH="mc:$PATH" && source ~/.bashrc
+RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc -P /bin
+RUN chmod +x /bin/mc
+RUN export PATH=/bin/mc:$PATH
 
 # #######################################################################################
 # Clean apt
@@ -50,3 +50,10 @@ RUN apt-get clean && \
 # Set workspace directory
 WORKDIR /workspace
 
+# #######################################################################################
+# Setup FastAPI Project
+RUN mkdir -p /workspace/app
+RUN cd /workspace/app && \
+    mkdir routes models services && \
+    touch routes/__init__.py models/__init__.py services/__init__.py \
+        __init__.py app.py dependencies.py

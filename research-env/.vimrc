@@ -70,14 +70,11 @@ nnoremap <SPACE> <Nop>
 highlight Normal guibg=NONE
 highlight EndOfBuffer guibg=NONE
 
-autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* silent! loadview
-
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " =================================================================================
 " Theme
-colorscheme sonokai
+" colorscheme sonokai
 let g:sonokai_style = 'atlantis'
 let g:sonokai_better_performance = 1
 
